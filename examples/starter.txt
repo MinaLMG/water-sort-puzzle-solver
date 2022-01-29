@@ -1,0 +1,20 @@
+4 4 a a a a b b b c c c c z b z z z
+1_2
+3_1
+*******
+6 4 
+a a a z     b b b b  c c c z  d d c z   d d z z     a z z z 
+
+3_2
+4_3
+4_3
+5_0
+******
+6 4 
+a a a z   b b b b     c c c a    d d d c   e e e d    e z z z
+
+2_0
+3_2
+4_3
+5_4
+******

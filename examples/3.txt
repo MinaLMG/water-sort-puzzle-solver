@@ -1,3 +1,18 @@
-14 4   a a b c     d d e a    f g b h    i h c j    j c k f    l a e g    e k l h    g l b e   f g i j     d i j d    k i l c     h b f k   z z z z    z z z z
+5 4 
+a b b c
+a b a a
+b c c c
+z z z z
+z z z z
 
-
+ 2_3
+ 2_3
+ 2_3
+ 0_2
+ 0_2
+ 1_0
+ 1_0
+ 1_2
+ 0_1
+ 0_1
+ 0_1

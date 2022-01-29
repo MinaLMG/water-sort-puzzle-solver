@@ -4,25 +4,32 @@
 #include<unordered_map>
 using namespace std;
 
-void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, vector<string>moves ,int&min, unordered_map <string,bool>pathMap, vector<string>& finalMoves, bool& found, const int &bottles, const int &height) 
+void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, vector<string>& moves, int& min, int& size, unordered_map <string, bool>pathMap, unordered_map <string, pair<int, vector<string>>>& pathesMap, bool& found, const int& bottles, const int& height)
 {
-	if (moves.size() >= min)
-		return; 
+	/*if (moves.size() >= min)
+		return;*/
+	if (size < pathMap.size())//great optimization
+		return;
 	for (int i = 0; i < dones.size(); i++)
 	{
 		if (dones[i] == 0)
 			break;
 		if (i == dones.size() - 1) {
-			if (moves.size() < min) {
-				finalMoves = moves;	
-				found = 1;
-				min = moves.size();
-			}
-			
+			/*if (moves.size() < min) {*/
+				//finalMoves = moves;	
+			found = 1;
+			min = 0;/*moves.size();*/
+			size = pathMap.size();
+			return;
+			//}
+
 		}
 	}
 	/*if (found)
 		return;*/
+	int minChoice = INT_MAX;
+	int min_temp = INT_MAX;//declared here to be modified and used 
+	//vector<string>minMoves;
 	for (int i = 0; i < colors.size(); i++)
 		for (int j = 0; j < colors.size(); j++)
 			if (i != j)
@@ -33,7 +40,18 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						continue;
 					*/
 					string x = " " + std::to_string(i) + "_" + std::to_string(j);
-					vector<string>moves_temp = moves;
+					if (x == " 2_3")
+						x = " 2_3";
+					if (x == " 0_2")
+						x = " 0_2";
+					if (x == " 1_0")
+						x = " 1_0";
+					if (x == " 1_2")
+						x = " 1_2";
+					if (x == " 0_1")
+						x = " 0_1";
+
+					vector<string>moves_temp;// = moves;
 					moves_temp.push_back(x);
 					vector<vector<string>>colors_temp = colors;
 					colors_temp[j][heights[j]] = colors_temp[i][heights[i] - 1];
@@ -69,8 +87,33 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						}
 					}
 					dones_temp[j] = done;
-
-					solve(colors_temp, heights_temp, dones_temp, moves_temp,min,pathMap_temp ,finalMoves, found, bottles, height);
+					vector<string>movesTofind;
+					bool found_temp = 0;
+					if (pathesMap.find(mapper) != pathesMap.end()) {
+						found = true;
+						int	minChoice_temp = pathesMap[mapper].first;
+						if (minChoice_temp < minChoice) {
+							minChoice = minChoice_temp;
+							moves = moves_temp;
+							movesTofind = pathesMap[mapper].second;
+							moves.insert(moves.end(), movesTofind.begin(), movesTofind.end());
+						}
+					}
+					else {
+						solve(colors_temp, heights_temp, dones_temp, movesTofind, min_temp, size, pathMap_temp, pathesMap, found_temp, bottles, height);
+						if (found_temp) {
+							pair<int, vector<string>>p;
+							p.first = min_temp;
+							p.second = movesTofind;
+							pathesMap.insert({ mapper ,p });
+						}
+						if (min_temp < minChoice && found_temp) {
+							found = true;
+							minChoice = min_temp;
+							moves = moves_temp;
+							moves.insert(moves.end(), movesTofind.begin(), movesTofind.end());
+						}
+					}
 				}
 	for (int i = 0; i < bottles; i++)
 	{
@@ -92,7 +135,18 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						continue;
 					}
 					string x = " " + std::to_string(j) + "_" + std::to_string(i);
-					vector<string>moves_temp = moves;
+					if (x == " 2_3" && pathMap.size() == 1)
+						x = " 2_3";
+					if (x == " 0_2")
+						x = " 0_2";
+					if (x == " 1_0")
+						x = " 1_0";
+					if (x == " 1_2")
+						x = " 1_2";
+					if (x == " 0_1")
+						x = " 0_1";
+
+					vector<string>moves_temp;// = moves;
 					moves_temp.push_back(x);
 					vector<vector<string>>colors_temp = colors;
 					colors_temp[i][heights[i]] = colors_temp[j][heights[j] - 1];
@@ -117,12 +171,39 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						}
 					}
 					dones_temp[j] = done;
-
-					solve(colors_temp, heights_temp, dones_temp, moves_temp,min,pathMap_temp, finalMoves, found, bottles, height);
+					int min_temp = INT_MAX;
+					vector<string>movesTofind;
+					bool found_temp = 0;
+					if (pathesMap.find(mapper) != pathesMap.end()) {
+						found = true;
+						int	minChoice_temp = pathesMap[mapper].first;
+						if (minChoice_temp < minChoice) {
+							minChoice = minChoice_temp;
+							moves = moves_temp;
+							movesTofind = pathesMap[mapper].second;
+							moves.insert(moves.end(), movesTofind.begin(), movesTofind.end());
+						}
+					}
+					else {
+						solve(colors_temp, heights_temp, dones_temp, movesTofind, min_temp, size, pathMap_temp, pathesMap, found_temp, bottles, height);
+						if (found_temp) {
+							pair<int, vector<string>>p;
+							p.first = min_temp;
+							p.second = movesTofind;
+							pathesMap.insert({ mapper ,p });
+						}
+						if (min_temp < minChoice && found_temp) {
+							found = true;
+							minChoice = min_temp;
+							moves = moves_temp;
+							moves.insert(moves.end(), movesTofind.begin(), movesTofind.end());
+						}
+					}
 				}
 			}
 		}
 	}
+	min = minChoice + 1;
 }
 int main() {
 	int bottles, height;
@@ -147,13 +228,15 @@ int main() {
 		}
 		dones[i] = done;
 	}
-	vector<string>moves, finalMoves;
+	vector<string>moves;// finalMoves;
 	bool found = 0;
-	unordered_map <string,bool>m;
+	unordered_map <string, bool>m;
+	unordered_map <string, pair<int, vector<string>>>pathes_map;
 	m.insert({ mapper, 1 });
 	int min = INT_MAX;
-	solve(colors, heights, dones, moves,min,m, finalMoves, found, bottles, height);
-	for (int i = 0; i < finalMoves.size(); i++)
-		cout << finalMoves[i] << endl;
+	int size = INT_MAX;
+	solve(colors, heights, dones, moves, min, size, m, pathes_map, found, bottles, height);
+	for (int i = 0; i < moves.size(); i++)
+		cout << moves[i] << endl;
 	return 0;
 }
