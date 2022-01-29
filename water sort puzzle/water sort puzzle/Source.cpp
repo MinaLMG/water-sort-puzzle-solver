@@ -53,14 +53,20 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 					bool done = true;
 					for (int l = 0; l < height; l++) {
 						if (l != 0 && colors_temp[i][l] != colors_temp[i][l - 1])
+						{
 							done = false;
+							break;
+						}
 					}
 					dones_temp[i] = done;
 
 					done = true;
 					for (int l = 0; l < height; l++) {
 						if (l != 0 && colors_temp[j][l] != colors_temp[j][l - 1])
+						{
 							done = false;
+							break;
+						}
 					}
 					dones_temp[j] = done;
 
@@ -74,6 +80,17 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 					/*string comparator = " " + std::to_string(i) + "_" + std::to_string(j);
 					if (moves.size()&&comparator == moves[moves.size() - 1])
 						continue;*/
+					if (heights[j] == 1) {
+						continue;
+					}
+					bool unuseful = true;
+					for (int h = 1; h < heights[j]; h++) {
+						if (colors[j][h] != colors[j][h - 1])
+							unuseful = false;
+					}
+					if (unuseful) {
+						continue;
+					}
 					string x = " " + std::to_string(j) + "_" + std::to_string(i);
 					vector<string>moves_temp = moves;
 					moves_temp.push_back(x);
@@ -85,7 +102,7 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						for (int m2 = 0; m2 < height; m2++)
 							mapper += colors_temp[m1][m2];
 					if (pathMap.find(mapper) != pathMap.end())
-						break;
+						continue;
 					unordered_map<string, bool>pathMap_temp = pathMap;
 					pathMap_temp.insert({ mapper,1 });
 					vector<int>heights_temp = heights;

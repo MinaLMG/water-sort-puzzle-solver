@@ -1,0 +1,15 @@
+14 4   
+a b c d   
+e f f a    
+g h e i    
+j c a e
+i b j d
+g j k b
+f i h l
+k k e k
+d l h l 
+f j h g
+i l c d
+a g c b
+z z z z
+z z z z 
