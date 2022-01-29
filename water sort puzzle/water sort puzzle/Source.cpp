@@ -37,7 +37,7 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 					moves_temp.push_back(x);
 					vector<vector<string>>colors_temp = colors;
 					colors_temp[j][heights[j]] = colors_temp[i][heights[i] - 1];
-					colors_temp[i][heights[i] - 1] = -1;
+					colors_temp[i][heights[i] - 1] = "z";
 					string mapper = "";
 					for (int m1 = 0; m1 < bottles; m1++)
 						for (int m2 = 0; m2 < height; m2++)
@@ -79,7 +79,7 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 					moves_temp.push_back(x);
 					vector<vector<string>>colors_temp = colors;
 					colors_temp[i][heights[i]] = colors_temp[j][heights[j] - 1];
-					colors_temp[j][heights[j] - 1] = -1;
+					colors_temp[j][heights[j] - 1] = "z";
 					string mapper = "";
 					for (int m1 = 0; m1 < bottles; m1++)
 						for (int m2 = 0; m2 < height; m2++)
