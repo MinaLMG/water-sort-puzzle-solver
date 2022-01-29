@@ -4,7 +4,7 @@
 #include<unordered_map>
 using namespace std;
 
-void solve(vector<vector<int>>colors, vector<int>heights, vector<bool>dones, vector<string>moves ,int&min, unordered_map <string,bool>pathMap, vector<string>& finalMoves, bool& found, const int &bottles, const int &height) 
+void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, vector<string>moves ,int&min, unordered_map <string,bool>pathMap, vector<string>& finalMoves, bool& found, const int &bottles, const int &height) 
 {
 	if (moves.size() >= min)
 		return; 
@@ -35,7 +35,7 @@ void solve(vector<vector<int>>colors, vector<int>heights, vector<bool>dones, vec
 					string x = " " + std::to_string(i) + "_" + std::to_string(j);
 					vector<string>moves_temp = moves;
 					moves_temp.push_back(x);
-					vector<vector<int>>colors_temp = colors;
+					vector<vector<string>>colors_temp = colors;
 					colors_temp[j][heights[j]] = colors_temp[i][heights[i] - 1];
 					colors_temp[i][heights[i] - 1] = -1;
 					string mapper = "";
@@ -77,7 +77,7 @@ void solve(vector<vector<int>>colors, vector<int>heights, vector<bool>dones, vec
 					string x = " " + std::to_string(j) + "_" + std::to_string(i);
 					vector<string>moves_temp = moves;
 					moves_temp.push_back(x);
-					vector<vector<int>>colors_temp = colors;
+					vector<vector<string>>colors_temp = colors;
 					colors_temp[i][heights[i]] = colors_temp[j][heights[j] - 1];
 					colors_temp[j][heights[j] - 1] = -1;
 					string mapper = "";
@@ -111,7 +111,7 @@ int main() {
 	int bottles, height;
 	cin >> bottles;
 	cin >> height;
-	vector<vector<int>>colors(bottles, vector<int>(height, -1));
+	vector<vector<string>>colors(bottles, vector<string>(height, "z"));
 	vector<int>heights(bottles, 0);
 	vector<bool>dones(bottles, 0);
 	string mapper = "";
@@ -119,8 +119,8 @@ int main() {
 		bool done = true;
 		for (int j = 0; j < height; j++) {
 			cin >> colors[i][j];
-			mapper += std::to_string(colors[i][j]);
-			if (colors[i][j] != -1)
+			mapper += colors[i][j];
+			if (colors[i][j] != "z")
 				heights[i]++;
 			/*if (j == 0)
 				if (colors[i][j] == -1)
