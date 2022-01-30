@@ -40,17 +40,6 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						continue;
 					*/
 					string x = " " + std::to_string(i) + "_" + std::to_string(j);
-					if (x == " 2_3")
-						x = " 2_3";
-					if (x == " 0_2")
-						x = " 0_2";
-					if (x == " 1_0")
-						x = " 1_0";
-					if (x == " 1_2")
-						x = " 1_2";
-					if (x == " 0_1")
-						x = " 0_1";
-
 					vector<string>moves_temp;// = moves;
 					moves_temp.push_back(x);
 					vector<vector<string>>colors_temp = colors;
@@ -135,16 +124,6 @@ void solve(vector<vector<string>>colors, vector<int>heights, vector<bool>dones, 
 						continue;
 					}
 					string x = " " + std::to_string(j) + "_" + std::to_string(i);
-					if (x == " 2_3" && pathMap.size() == 1)
-						x = " 2_3";
-					if (x == " 0_2")
-						x = " 0_2";
-					if (x == " 1_0")
-						x = " 1_0";
-					if (x == " 1_2")
-						x = " 1_2";
-					if (x == " 0_1")
-						x = " 0_1";
 
 					vector<string>moves_temp;// = moves;
 					moves_temp.push_back(x);
